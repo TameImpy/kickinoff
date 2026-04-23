@@ -481,6 +481,7 @@ Push notifications are deferred to V1.1. MVP uses email for key lifecycle events
   "display": "standalone",
   "background_color": "#0c0f14",
   "theme_color": "#00e676",
+  // Note: background matches OLED-optimised dark base from Stitch design
   "icons": [
     { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
@@ -586,20 +587,39 @@ All server-side logic lives in Next.js API routes. No Supabase Edge Functions.
 
 ## UI/UX Design Guidelines
 
+### Design Source
+All UI is built from the Google Stitch design export (`design/stitch-reference.html` and `design/DESIGN.md`). The Stitch design is the single source of truth for component patterns, layout structure, and visual language. Colour palette is adapted for the Kickin' Off football brand as described below.
+
 ### Visual Identity
-- **Dark theme** by default (football is an evening activity — dark UI feels premium and matches the context)
-- **Primary color:** Electric green (#00e676) — evokes the pitch
-- **Accent:** Amber/gold (#ffab40) — for warnings, highlights
-- **Error:** Red (#ff5252)
-- **Typography:** Use a clean, sporty sans-serif. Sora or equivalent for body, a serif display font for headings
+- **Style:** Cyber-Brutalism / High-Contrast Bold — aggressive, high-energy, competitive. The UI should feel like a gaming HUD
+- **Dark OLED base:** Background #0D0D0D, Surface #131313, Cards #1A1A1A, Borders #262626
+- **Primary color:** Electric green (#00e676) — evokes the pitch. Used for primary actions, CTAs, success states, correct answers
+- **Accent:** Electric purple (#BD00FF) — used for branding accents, active states, secondary highlights
+- **Tertiary:** Cyber cyan (#00dbe9) — used for info callouts, secondary interactive elements
+- **Error:** Red (#ff5252 / #ffb4ab)
+- **Typography:**
+  - **Space Grotesk** — headlines, labels, scores, timers. Tight tracking, uppercase for aggression
+  - **Spline Sans** — body copy, multi-line text. High readability during fast-paced play
+- **Shapes:** Sharp (0px border radius). Clipped/chamfered corners (45-degree) on primary buttons. No curves. All elements strictly rectangular
+- **Elevation:** Tonal layers + hard neon glows (no soft shadows, no frosted glass). Interactive elements use "Neon Underglow" in primary/accent colour
 - **Tone:** Confident, slightly cheeky, football-literate. Not corporate. Think "your mate who runs the pub quiz" not "FIFA official communications"
+
+### Component Patterns (from Stitch)
+- **Primary buttons:** Solid green (#00e676) with black text, clipped top-right corner (`button-clip` polygon)
+- **Secondary buttons:** 2px purple (#BD00FF) border, no fill, clipped corner
+- **Cards:** #1A1A1A background, 1px #262626 border, hover border changes to accent colour
+- **Leaderboard/League table:** Top positions highlighted with coloured left-stripe (neon glow)
+- **Timer bar:** Full-width 4px bar, depletes right-to-left in green, turns purple when <5 seconds
+- **Chips/badges:** Rectangular tags with cyan outline, Space Grotesk bold
+- **Inputs:** Flat #1A1A1A with bottom-only 2px green border (command-line aesthetic)
 
 ### Mobile-First Layout
 - Max content width: 480px (phone-optimised)
+- 4-column grid with 20px outer margins on mobile
 - Bottom navigation bar: Home / Leagues / Profile
 - Large tap targets (min 44px)
 - Haptic feedback on answer selection (navigator.vibrate)
-- Swipe gestures where appropriate (swipe between league tabs)
+- Spacing: 4px baseline grid (xs: 8px, sm: 16px, md: 24px, lg: 32px, xl: 48px)
 
 ### Fixture Room Layout
 - **Top half:** Two video feeds side-by-side (or stacked in portrait)

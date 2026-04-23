@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QUIZ_ARENA - Dominate the Arena</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .clipped-corner {
+            clip-path: polygon(0 0, 92% 0, 100% 15%, 100% 100%, 8% 100%, 0 85%);
+        }
+        .button-clip {
+            clip-path: polygon(0 0, 85% 0, 100% 30%, 100% 100%, 0 100%);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0D0D0D;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border: 2px solid #0D0D0D;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #BD00FF;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#00dbe9",
+                    "primary-container": "#bd00ff",
+                    "on-tertiary-container": "#ffffff",
+                    "on-primary-fixed": "#320047",
+                    "on-tertiary": "#00363a",
+                    "inverse-primary": "#9900cf",
+                    "surface-container-highest": "#353534",
+                    "surface-bright": "#3a3939",
+                    "background": "#0D0D0D",
+                    "on-error-container": "#ffdad6",
+                    "secondary-container": "#c3f400",
+                    "surface": "#131313",
+                    "on-surface-variant": "#d4c0d7",
+                    "inverse-on-surface": "#313030",
+                    "on-surface": "#e5e2e1",
+                    "outline-variant": "#514255",
+                    "on-secondary-fixed": "#161e00",
+                    "error-container": "#93000a",
+                    "secondary-fixed-dim": "#abd600",
+                    "inverse-surface": "#e5e2e1",
+                    "on-primary-fixed-variant": "#74009f",
+                    "on-background": "#e5e2e1",
+                    "secondary": "#ffffff",
+                    "on-secondary-container": "#556d00",
+                    "on-secondary": "#283500",
+                    "on-primary-container": "#ffffff",
+                    "secondary-fixed": "#c3f400",
+                    "outline": "#9d8ba0",
+                    "on-error": "#690005",
+                    "surface-dim": "#131313",
+                    "surface-variant": "#353534",
+                    "error": "#ffb4ab",
+                    "surface-container-lowest": "#0e0e0e",
+                    "primary-fixed": "#f8d8ff",
+                    "tertiary": "#00dbe9",
+                    "primary": "#ecb2ff",
+                    "on-tertiary-fixed-variant": "#004f54",
+                    "surface-container": "#201f1f",
+                    "primary-fixed-dim": "#ecb2ff",
+                    "on-tertiary-fixed": "#002022",
+                    "tertiary-fixed": "#7df4ff",
+                    "surface-tint": "#ecb2ff",
+                    "surface-container-low": "#1c1b1b",
+                    "surface-container-high": "#2a2a2a",
+                    "on-secondary-fixed-variant": "#3c4d00",
+                    "tertiary-container": "#00838b",
+                    "on-primary": "#520071"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "32px",
+                    "margin-mobile": "20px",
+                    "xs": "8px",
+                    "xl": "48px",
+                    "gutter": "16px",
+                    "md": "24px",
+                    "sm": "16px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "label-bold": ["Space Grotesk"],
+                    "headline-md": ["Space Grotesk"],
+                    "body-lg": ["Spline Sans"],
+                    "headline-lg": ["Space Grotesk"],
+                    "headline-xl": ["Space Grotesk"],
+                    "label-sm": ["Spline Sans"],
+                    "body-md": ["Spline Sans"]
+            },
+            "fontSize": {
+                    "label-bold": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "1.0", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="bg-[#0D0D0D] docked full-width top-0 border-b border-[#262626] shadow-[0_0_15px_rgba(189,0,255,0.3)] z-50 sticky">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#BD00FF]">menu</span>
+<div class="text-2xl font-black italic text-[#BD00FF] tracking-widest font-['Space_Grotesk']">QUIZ_ARENA</div>
+</div>
+<nav class="hidden md:flex gap-8">
+<a class="font-['Space_Grotesk'] font-bold tracking-tighter uppercase text-[#BD00FF] border-b-2 border-[#BD00FF] hover:text-[#BD00FF] transition-all" href="#">ARENA</a>
+<a class="font-['Space_Grotesk'] font-bold tracking-tighter uppercase text-white/70 hover:text-[#BD00FF] transition-all" href="#">RANKINGS</a>
+<a class="font-['Space_Grotesk'] font-bold tracking-tighter uppercase text-white/70 hover:text-[#BD00FF] transition-all" href="#">COMMUNITY</a>
+</nav>
+<button class="bg-[#BD00FF] text-white px-6 py-2 button-clip font-['Space_Grotesk'] font-bold active:scale-95 duration-100">PLAY NOW</button>
+</div>
+</header>
+<!-- Timer Bar Emulation (Decorative) -->
+<div class="w-full h-1 bg-[#262626] relative">
+<div class="absolute left-0 top-0 h-full bg-secondary-fixed w-[70%]"></div>
+</div>
+<!-- Hero Section -->
+<section class="relative min-h-[707px] flex items-center justify-center overflow-hidden px-margin-mobile">
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
+<img class="w-full h-full object-cover" data-alt="Abstract digital grid background with glowing purple and cyan light streaks in a dark cybernetic space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfQ4AsARuziGgfxlC9D0dPco-AiRJhbO4y-iC7lTizpoEII3PXy0s1DiQJnZ8haTcf4sKVKfvNic-hFDnHRHeZ8QEbOjuQN7UdWfAsjQf6tICEb5PWqlsdnYU3IDWiEKFN2hv8TEhYkbtKvIKizbS-M0YiMvYcfxuFi8mtrRETZBpmYyNlrXyEw-tDgqVzQQzEz0YNqs3eRh_mXauI8xjDIKncq99idPQd54fJWdD1GWo7-c710GQAd_Nwncz78Hp7wkByy8_ZyMOP"/>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent to-background"></div>
+</div>
+<div class="relative z-10 max-w-4xl text-center">
+<div class="inline-block bg-tertiary-container/20 border border-tertiary text-tertiary px-4 py-1 font-label-bold text-label-sm mb-6 tracking-widest">
+                SEASON 04: THE RISE OF TITANS
+            </div>
+<h1 class="font-headline-xl text-headline-xl md:text-8xl mb-6 leading-none">
+                DOMINATE THE <span class="text-primary-container italic">ARENA</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-10">
+                The ultimate battle of wits. Challenge players worldwide in high-stakes trivia duels and claim your spot on the global leaderboard.
+            </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="bg-primary-container text-on-primary-container font-headline-md px-10 py-5 button-clip flex items-center justify-center gap-2 hover:shadow-[0_0_20px_#BD00FF] transition-all">
+                    START MATCH <span class="material-symbols-outlined">bolt</span>
+</button>
+<button class="border-2 border-secondary-fixed text-secondary-fixed font-headline-md px-10 py-5 button-clip hover:bg-secondary-fixed/10 transition-all">
+                    VIEW RANKINGS
+                </button>
+</div>
+</div>
+</section>
+<!-- Live Matches Grid -->
+<section class="py-xl max-w-7xl mx-auto px-6">
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="font-headline-lg text-headline-lg uppercase italic border-l-4 border-secondary-fixed pl-4">LIVE_MATCHES</h2>
+<p class="text-on-surface-variant mt-2 font-label-sm uppercase tracking-widest">Real-time competition active now</p>
+</div>
+<button class="text-tertiary font-label-bold border-b border-tertiary pb-1">VIEW ALL ARENAS</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-[#1A1A1A] border border-[#262626] p-6 group hover:border-primary-container transition-all">
+<div class="flex justify-between items-start mb-6">
+<span class="bg-error-container text-white px-3 py-1 text-label-sm font-label-bold italic flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> LIVE
+                    </span>
+<span class="text-white/50 text-label-sm font-label-bold">2.4K PLAYING</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-white mb-2">NEON POP CULTURE</h3>
+<p class="text-white/60 mb-6 text-sm line-clamp-2">From retro cinema to the latest viral hits. Prove you're the master of the zeitgeist.</p>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-[#1A1A1A]" data-alt="User avatar 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRa23HFaZ4I7q_iQIPPv0qQ6hbt-QSlV2IcMPTDlADnUHXAXgT-vFg5D2R4Tz1LF1qr6A4CQre40InkpRR2Uv5jqEx6TMQFXyMbsMV0OVHBLU9YlzEFBMLVXrZjyqtQm37XQk25BOkuYbzR53XWXoBnThha4KQMndC53KqKhBzgG2laShO9UKhOgnkq_DwJr2SnH5noaCTXtr7C61SB3RoBbkj8ZGNn_By3fP4zdEE1Mja8MIIYOyNfMzL_f_X-W6Lt2SJItRUtlIz"/>
+<img class="w-8 h-8 rounded-full border-2 border-[#1A1A1A]" data-alt="User avatar 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbX6TE_I6bjpSqNGmdZDcMlmKLzUr0peENJdHqBeksX6zWaqwAUIYuqcI9JuJ6o6zlTDUmz2qsI1TJbpssInJawYPxydiKcmMr7RwZjBeiMWSD2-s87oNwvP9mIGCE0wD0QCz1TqKAMV1-itKlvaxG1dcVBFHuAIweivszsZju1HJOP7rPJxEwbXXb28UnYUQtrnECt77brmGLk2ANZDXOedZFiSDWc66WqjAXVev0JcNg0-WZRVHYXb1TftsyCrBmgcWaikMkq-d1"/>
+<div class="w-8 h-8 rounded-full bg-[#262626] border-2 border-[#1A1A1A] flex items-center justify-center text-[10px]">+42</div>
+</div>
+<button class="bg-secondary-fixed text-on-secondary-fixed px-6 py-2 button-clip font-label-bold hover:shadow-[0_0_10px_#c3f400] transition-all">JOIN ARENA</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-[#1A1A1A] border border-[#262626] p-6 group hover:border-primary-container transition-all">
+<div class="flex justify-between items-start mb-6">
+<span class="bg-tertiary-container/20 border border-tertiary text-tertiary px-3 py-1 text-label-sm font-label-bold italic">STARTS IN 04:20</span>
+<span class="text-white/50 text-label-sm font-label-bold">850 REGISTERED</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-white mb-2">QUANTUM PHYSICS</h3>
+<p class="text-white/60 mb-6 text-sm line-clamp-2">High stakes science battle. Winners receive exclusive 'Particle' badges.</p>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-[#1A1A1A]" data-alt="User avatar 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9SzvGVngF88ddtqinp5cyQIMzcEMH4odzREMxwSP2NukAHQMXn-BdG-HugVTWXSATWZERc4c_NDXvrC98qYlamChMMa_7HJPM4R4Yf2Mjg6ragKdIKNL16qWTihGVYi9bCquaolMXNSM0D7L7f9QFEd4slFT_2wSKNRNX0VpYZApV3W6frkMGZuW8z37Q4cPgHYreHhplB-DUq_S5WoUNlwblb04HVUQFqyi1-Jkf3s2jmq2itGD-a3YPI6F1R42_oHg3twgxlM-F"/>
+<img class="w-8 h-8 rounded-full border-2 border-[#1A1A1A]" data-alt="User avatar 4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBj8mpLrjgBFWRv8FemRFd4kt4lgk8fftRsydHEDwtYU5v5lORGqp3lur1S20nQZ6s8C46n8bOG6p07jB7LYp1IQ3ubZOXBt_gSfkDo0rT7T9muwPJE4cGuTmT2K8G9qkm4QKUAhXGgAe_n9zb7SUuDCuKIgLESzKwNM4CpdAZhVlkFvZmTerI1mxEcsIvJkHlJRdMQKUMP4x3cHs_R8k4lSo3Pr-K7GNrCgn6fTAb90jgjk-nVLtFF-MgbAMFSVuTL_YPZjK9hhZ4S"/>
+</div>
+<button class="border border-secondary-fixed text-secondary-fixed px-6 py-2 button-clip font-label-bold hover:bg-secondary-fixed/10 transition-all">REGISTER</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-[#1A1A1A] border border-[#262626] p-6 group hover:border-primary-container transition-all">
+<div class="flex justify-between items-start mb-6">
+<span class="bg-error-container text-white px-3 py-1 text-label-sm font-label-bold italic flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> LIVE
+                    </span>
+<span class="text-white/50 text-label-sm font-label-bold">1.2K PLAYING</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-white mb-2">GAMING HISTORY</h3>
+<p class="text-white/60 mb-6 text-sm line-clamp-2">From Pong to Cyberpunk. How much do you really know about your favorite pastime?</p>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-[#1A1A1A]" data-alt="User avatar 5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3-avAzrShhqHZLqrfGuaXS2c6gJ5wJwaPo8THBTbMgvKr0kvk-IGEJZlmhuWHSj-izLhg5WHQ4oqvfTP83vBRqzeKwK6g3H2SFlcpBQ8JV5lb6q5WZauFdVA854lT000kjShkxk-Vng8kFhfoTjjCsE1gB3Ys6QOF9uLcPmRIcGC5kDUvzW6X0Hu-zBnomO_bBxLozkoFUpiICj3zUXZ7oksuFZJxS5ayi7ieAa_pGk-gRPQ9m0PmoOSNZSwNYnrPpGd-A2fRTBxk"/>
+<div class="w-8 h-8 rounded-full bg-[#262626] border-2 border-[#1A1A1A] flex items-center justify-center text-[10px]">+12</div>
+</div>
+<button class="bg-secondary-fixed text-on-secondary-fixed px-6 py-2 button-clip font-label-bold">JOIN ARENA</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid Section (Leaderboard + Features) -->
+<section class="bg-[#131313] py-xl">
+<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Leaderboard (The Pulse) -->
+<div class="lg:col-span-5 bg-[#1A1A1A] border border-[#262626] p-8">
+<h2 class="font-headline-lg text-headline-lg mb-8 uppercase tracking-tighter">GLOBAL_RANKINGS</h2>
+<div class="space-y-4">
+<!-- Top 1 -->
+<div class="flex items-center gap-4 bg-[#0D0D0D] p-4 relative overflow-hidden group">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary-fixed shadow-[0_0_10px_#c3f400]"></div>
+<span class="font-headline-md italic text-white/40 w-8">01</span>
+<div class="relative">
+<img class="w-12 h-12 rounded-full grayscale group-hover:grayscale-0 transition-all" data-alt="Profile of professional gamer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBj1-2Y__M0dd1fEkQnm6DRyqopr-ioyZ6IR_FBt6lfMytk6hztHPnPWfE06z67tUIIVw9u1xIpU92yNU7ZVvOl0WG-b87ulCuHiBglVrqV_KOHV425zHCUFPrYnCvfm2zv1051gYei1QKixS15rAJQta9DaZW4DBGdNhPiS7h1rQmcAy0gGRKZ9LabMarNQaIIajm7K3q9YMilnS3CLyTR_OmTEFNNjVZBAX2Fpm6FxVHwmyI1PEDKvceB-xZRw1tiPWiMtphkkDSr"/>
+<span class="absolute -top-1 -right-1 bg-secondary-fixed text-on-secondary-fixed text-[8px] px-1 font-bold">MVP</span>
+</div>
+<div class="flex-1">
+<div class="font-headline-md text-white">X_TERMINATOR</div>
+<div class="text-label-sm text-secondary-fixed font-bold">LEVEL 99 TITAN</div>
+</div>
+<div class="text-right">
+<div class="text-white font-headline-md">15,840</div>
+<div class="text-[10px] text-white/50">PTS</div>
+</div>
+</div>
+<!-- Top 2 -->
+<div class="flex items-center gap-4 bg-[#0D0D0D] p-4 relative overflow-hidden group">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container shadow-[0_0_10px_#BD00FF]"></div>
+<span class="font-headline-md italic text-white/40 w-8">02</span>
+<img class="w-12 h-12 rounded-full grayscale group-hover:grayscale-0 transition-all" data-alt="Profile of female gamer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS8UXmEdEXmjf_1_SaCc25bPluyJjZEKFsNaxncEZ23AeEeuQdraH8x1w-3NuSGi7ME16i1K--MjjEWT2LqLH4Ycevda4YCqQjTf6EBtg2j0VsPVYCfwQezs8bNJZkzr1smtt15IOlg4NXB0BsLFXU2uwnyjid_KXaofkd8HsGUXFT5WufgnyhnRcgGku9cZ_G9FhQDcRHJLIyu7IfMId0YxvJ0srJH-k5qZTCIN7knl0MNjA7975zz2WuAROjVxF3GU7ltHn0DRD7"/>
+<div class="flex-1">
+<div class="font-headline-md text-white">NEON_DREAMER</div>
+<div class="text-label-sm text-primary-container font-bold">LEVEL 85 ELITE</div>
+</div>
+<div class="text-right">
+<div class="text-white font-headline-md">14,200</div>
+<div class="text-[10px] text-white/50">PTS</div>
+</div>
+</div>
+<!-- Top 3 -->
+<div class="flex items-center gap-4 bg-[#0D0D0D] p-4 relative overflow-hidden group">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary shadow-[0_0_10px_#00dbe9]"></div>
+<span class="font-headline-md italic text-white/40 w-8">03</span>
+<img class="w-12 h-12 rounded-full grayscale group-hover:grayscale-0 transition-all" data-alt="Profile of young male player" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqE29tPJnFrr1G3robivFzspVij-I9XAQyPWrSAKhVhNMtDokDcrFujdrZ1v9laVXJslzYb7Q7IJvt1IQDWk7sEaGIoi0DQ3m2WsupY5QvGxPPreFQEKebgi8Txv_P5vDo55jM1SBS0i5z1LCtAm6oHT6ktbfQwaxdnKVWYMJVajVLrGXt85UuwNDPsIPa2e3vU6zT6hzGMu1CTAIOWynJCqcMTGx7sFOWX7gdzHG0jLMPHMIFAfuzdxktNuI7r8JMXm8PvFbJhs96"/>
+<div class="flex-1">
+<div class="font-headline-md text-white">CYBER_KING</div>
+<div class="text-label-sm text-tertiary font-bold">LEVEL 72 PRO</div>
+</div>
+<div class="text-right">
+<div class="text-white font-headline-md">12,950</div>
+<div class="text-[10px] text-white/50">PTS</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-8 py-4 border border-[#262626] font-label-bold text-white/50 hover:bg-white/5 transition-all uppercase tracking-widest">VIEW FULL HALL OF FAME</button>
+</div>
+<!-- Features & Social -->
+<div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Social Challenges -->
+<div class="bg-[#1A1A1A] border border-[#262626] p-8 flex flex-col justify-between">
+<div>
+<span class="material-symbols-outlined text-primary-container text-4xl mb-4">groups</span>
+<h3 class="font-headline-lg text-headline-lg uppercase mb-4">CLAN_BATTLES</h3>
+<p class="text-on-surface-variant">Form teams, participate in monthly tournaments, and split the ultimate bounty.</p>
+</div>
+<ul class="mt-8 space-y-3">
+<li class="flex items-center gap-2 text-label-sm font-bold text-white/80">
+<span class="material-symbols-outlined text-secondary-fixed text-sm">check_circle</span> TEAM-BASED PROGRESSION
+                        </li>
+<li class="flex items-center gap-2 text-label-sm font-bold text-white/80">
+<span class="material-symbols-outlined text-secondary-fixed text-sm">check_circle</span> PRIVATE ARENAS
+                        </li>
+<li class="flex items-center gap-2 text-label-sm font-bold text-white/80">
+<span class="material-symbols-outlined text-secondary-fixed text-sm">check_circle</span> LIVE CHAT &amp; TAUNTS
+                        </li>
+</ul>
+</div>
+<!-- Instant Payouts / Rewards -->
+<div class="bg-[#1A1A1A] border border-[#262626] p-8 flex flex-col justify-between relative overflow-hidden">
+<div class="absolute -right-10 -bottom-10 opacity-10">
+<span class="material-symbols-outlined text-[200px]" style="font-variation-settings: 'FILL' 1;">monetization_on</span>
+</div>
+<div class="relative z-10">
+<span class="material-symbols-outlined text-secondary-fixed text-4xl mb-4">diamond</span>
+<h3 class="font-headline-lg text-headline-lg uppercase mb-4">REAL_LOOT</h3>
+<p class="text-on-surface-variant">Win matches to earn 'Cores'. Exchange for real-world gear and digital collectibles.</p>
+</div>
+<div class="mt-8 relative z-10">
+<div class="h-2 w-full bg-[#0D0D0D] mb-2 overflow-hidden">
+<div class="h-full bg-primary-container w-3/4"></div>
+</div>
+<span class="text-[10px] font-bold text-white/50 uppercase tracking-widest">75% OF SEASON POOL REMAINING</span>
+</div>
+</div>
+<!-- Community Hub -->
+<div class="md:col-span-2 bg-gradient-to-r from-[#1A1A1A] to-[#262626] p-8 flex flex-col md:flex-row items-center gap-8 border border-[#262626]">
+<div class="flex-1">
+<h3 class="font-headline-lg text-headline-lg uppercase mb-2">JOIN THE HUB</h3>
+<p class="text-on-surface-variant">4.2 Million players are waiting. Discuss strategies, suggest questions, and participate in community votes.</p>
+<div class="mt-6 flex gap-4">
+<button class="bg-[#5865F2] text-white px-6 py-2 button-clip flex items-center gap-2 font-bold text-sm">DISCORD</button>
+<button class="bg-black text-white px-6 py-2 button-clip border border-white/20 flex items-center gap-2 font-bold text-sm">TWITTER</button>
+</div>
+</div>
+<div class="w-full md:w-1/3 grid grid-cols-3 gap-2">
+<img class="w-full aspect-square object-cover grayscale border border-white/10" data-alt="Gaming setup aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnqjkDdWQycbNFF2D_-iZwYLCRdlX8HV7JiLrcJqCAwNalWnw9N01bPLn71uowlMkXV7Is4FHM2abxzHg-yJbftXQbJfKac6kD4xV7ZzWTswC4TgW0yNMJWa4fcuwyMfCqyCxYQnxMcXMUdXdIMRZyb-41bCGP3y95qPvk1YD21vWtBtRSThqs3HOszFyt04ztdYjF8VjeDY3S71Ws6BAGddJBLfJf5lZi8qKczShTdYza88fizxm7OusgVmIqf9WPYv-BoOX6Xd5j"/>
+<img class="w-full aspect-square object-cover grayscale border border-white/10" data-alt="Controller close up" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD657gKwVboQ13t8y_auOE2DtnQNti6iAXSqpBvEqHjj8T9FS71fUsCcy0tHRpeEtBYSYM90F2XDM-mPeoMq_DAmZMHuVepmcWOtEAbulapmluyPHJ50SCj7refrLJA0VA6sJceeAohx36x8wOiKyG_ZWac8d6ABMd6oVGYCzBssHI9jZSV86Ot4OaQGoFy7UDduBOXh9dvRyoSuDWAHjw0g2ENQkhC0LEem-3qT5wAJsSpUn7BhCB-wZokjbaWpClXlczkee6n7Zcr"/>
+<img class="w-full aspect-square object-cover grayscale border border-white/10" data-alt="Retro tech aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl4un7BgogsFZvPHjPYgItg6G7fMzBGmKB1Mm-eQyvEoAYWGp_TWm79iNcwUGn2t64hQ-JYjlR4ptBLk2JxIX_NLZKq3ekxovNXfpD_M6dIGQYZBv60pmO15AB00LtHdRJwQZWN-uazV1vxx3fiMPwUmBu8PSISFosgi3ZXcPCcwHDNdQIFSL7Ss7QMWAgTkOROoZAgrfiBoCw9xLa3TmxGAD4fGj8sONi7OPzFxFeMFAtj2_5pKbwJWTmISLsjUEawlI4HaYjgId-"/>
+<img class="w-full aspect-square object-cover grayscale border border-white/10" data-alt="ESports competition lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaZRl0XPjL8-4pK_3NmZFbkD-4Vmusgdcba75Y6RTxlD9t-f_F1zqQeY192aOkdsg4568S4gG1XBM2ck6OonyxpdgS0KKVqqCc9_7OWQf_ioqsyQbZ6JaieMHKTBUCngLP9zeKDB2bWfZ-lauZeeiS-BtKOh6dg6XXIqBGBt0aF6VpSrjoD0b1VZVO2LJQiREg8suwofGEY4imBe4i8cYsj1jIXTdNm_acGBuwAuwc-pyTAmKw8KQiAL5GzT7xHjYDxTRH2KSUlHGF"/>
+<img class="w-full aspect-square object-cover grayscale border border-white/10" data-alt="Computer hardware interior with RGB" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-0PXb5tHXVeWe9bxDzAWwE5Z0_89h8_k_wRyWjgBoJXuy3qX_VSKepFkxeOcigLV1qhrG_xTtH-0OgoyiKJlW8BjHB41pjJoBan-Bze6xnnnVRKv9pUVHKHVah9vKjiAlj5etyX9dNhFBoGHa8pfIJqz_0yeOJJ5LvH3bDdtErKJewJYuFG6J2juouI3aPUiUF8_9IyLinkJGJa_iqNsqbguOCXzKWO-axHtSpoQrAkNa8SeqeigM3fCxHvyiP-09M0dI6LwF22m-"/>
+<div class="bg-primary-container flex items-center justify-center font-bold text-lg">+12K</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="py-xl px-6 relative overflow-hidden">
+<div class="absolute inset-0 bg-primary-container/5 z-0"></div>
+<div class="max-w-4xl mx-auto text-center relative z-10 border-4 border-primary-container p-12 bg-[#0D0D0D] clipped-corner">
+<h2 class="font-headline-xl text-headline-xl mb-6 uppercase italic">ARE YOU READY TO CLIMB?</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-xl mx-auto">
+                Download the QUIZ_ARENA app for low-latency matches and exclusive mobile-only tournaments.
+            </p>
+<div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+<button class="bg-primary-container text-on-primary-container font-headline-md px-12 py-6 button-clip hover:shadow-[0_0_30px_#BD00FF] transition-all w-full sm:w-auto">
+                    DOWNLOAD NOW
+                </button>
+<div class="flex flex-col items-start gap-1">
+<div class="flex gap-1 text-secondary-fixed">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star_half</span>
+</div>
+<span class="text-white/50 text-[10px] font-bold uppercase tracking-widest">4.9 RATING | 50M+ DOWNLOADS</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-[#0D0D0D] border-t border-[#262626]">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-8 py-12 gap-6 max-w-7xl mx-auto">
+<div class="flex flex-col items-center md:items-start">
+<div class="text-lg font-black text-[#BD00FF] font-['Space_Grotesk'] tracking-widest mb-2">QUIZ_ARENA</div>
+<p class="font-['Space_Grotesk'] text-xs uppercase tracking-widest text-white/50">© 2024 QUIZ_ARENA. DOMINATE THE LEADERBOARD.</p>
+</div>
+<div class="flex gap-8">
+<a class="font-['Space_Grotesk'] text-xs uppercase tracking-widest text-[#BD00FF] transition-colors" href="#">ARENA</a>
+<a class="font-['Space_Grotesk'] text-xs uppercase tracking-widest text-white/50 hover:text-cyan-400 transition-colors" href="#">RANKINGS</a>
+<a class="font-['Space_Grotesk'] text-xs uppercase tracking-widest text-white/50 hover:text-cyan-400 transition-colors" href="#">COMMUNITY</a>
+<a class="font-['Space_Grotesk'] text-xs uppercase tracking-widest text-white/50 hover:text-cyan-400 transition-colors" href="#">SUPPORT</a>
+</div>
+<div class="flex gap-4">
+<button class="w-10 h-10 border border-[#262626] flex items-center justify-center text-white/50 hover:text-primary-container transition-all">
+<span class="material-symbols-outlined text-sm">share</span>
+</button>
+<button class="w-10 h-10 border border-[#262626] flex items-center justify-center text-white/50 hover:text-primary-container transition-all">
+<span class="material-symbols-outlined text-sm">language</span>
+</button>
+</div>
+</div>
+</footer>
+</body></html>
