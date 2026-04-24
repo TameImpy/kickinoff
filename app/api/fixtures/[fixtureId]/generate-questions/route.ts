@@ -3,8 +3,6 @@ import { createServiceClient } from "@/lib/supabase/server";
 import { generateQuestions } from "@/lib/questions/generator";
 import Anthropic from "@anthropic-ai/sdk";
 
-const anthropic = new Anthropic();
-
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ fixtureId: string }> }
@@ -48,6 +46,7 @@ export async function POST(
     const questions = await generateQuestions(
       { questionMode, excludeQuestions: exclusions },
       async (prompt: string) => {
+        const anthropic = new Anthropic();
         const response = await anthropic.messages.create({
           model: "claude-sonnet-4-20250514",
           max_tokens: 2000,

@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import StartLeagueButton from "./start-league-button";
+import Celebration from "@/components/league/celebration";
 import Link from "next/link";
 
 export default async function LeagueDetailPage({
@@ -66,6 +67,11 @@ export default async function LeagueDetailPage({
           </span>
         </div>
       </div>
+
+      {/* League Completion Ceremony */}
+      {league.status === "completed" && (
+        <Celebration leagueId={id} leagueName={league.name} />
+      )}
 
       {/* Start League (only for creator, only when open) */}
       {canStart && <StartLeagueButton leagueId={id} />}
