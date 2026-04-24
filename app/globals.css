@@ -1,26 +1,72 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Surface / Background */
+  --color-background: #0D0D0D;
+  --color-surface: #131313;
+  --color-surface-dim: #131313;
+  --color-surface-bright: #3a3939;
+  --color-surface-lowest: #0e0e0e;
+  --color-surface-low: #1c1b1b;
+  --color-surface-container: #201f1f;
+  --color-surface-high: #2a2a2a;
+  --color-surface-highest: #353534;
+  --color-card: #1A1A1A;
+  --color-border: #262626;
+
+  /* Text */
+  --color-on-surface: #e5e2e1;
+  --color-on-surface-variant: #d4c0d7;
+  --color-foreground: #e5e2e1;
+
+  /* Primary — Electric Green */
+  --color-primary: #00e676;
+  --color-on-primary: #003919;
+  --color-primary-container: #00e676;
+  --color-on-primary-container: #000000;
+
+  /* Accent — Electric Purple */
+  --color-accent: #BD00FF;
+  --color-accent-light: #ecb2ff;
+  --color-on-accent: #ffffff;
+
+  /* Secondary — Neon Green (from Stitch) */
+  --color-secondary: #c3f400;
+  --color-on-secondary: #283500;
+
+  /* Tertiary — Cyber Cyan */
+  --color-tertiary: #00dbe9;
+  --color-on-tertiary: #00363a;
+  --color-tertiary-container: #00838b;
+
+  /* Error */
+  --color-error: #ffb4ab;
+  --color-error-container: #93000a;
+
+  /* Fonts */
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-body: "Spline Sans", sans-serif;
+
+  /* Spacing */
+  --spacing-base: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 32px;
+  --spacing-xl: 48px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Custom utilities */
+.button-clip {
+  clip-path: polygon(0 0, 85% 0, 100% 30%, 100% 100%, 0 100%);
+}
+
+.clipped-corner {
+  clip-path: polygon(0 0, 92% 0, 100% 15%, 100% 100%, 8% 100%, 0 85%);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body);
 }
