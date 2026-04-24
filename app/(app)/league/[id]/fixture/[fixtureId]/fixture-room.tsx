@@ -3,7 +3,14 @@
 import { useEffect, useRef } from "react";
 import { useFixture } from "@/hooks/useFixture";
 import { useTimer } from "@/hooks/useTimer";
+import { useVideoRoom } from "@/hooks/useVideoRoom";
+import dynamic from "next/dynamic";
 import Link from "next/link";
+
+const VideoPanel = dynamic(
+  () => import("@/components/fixture/video-panel"),
+  { ssr: false }
+);
 
 interface FixtureRoomProps {
   fixtureId: string;
@@ -32,11 +39,13 @@ export default function FixtureRoom({
 }: FixtureRoomProps) {
   const fixture = useFixture(fixtureId, userId);
   const timer = useTimer(fixture.startedAt);
+  const video = useVideoRoom(fixtureId);
   const lastQuestionRef = useRef(0);
 
-  // Generate questions on mount
+  // Connect video + generate questions on mount
   useEffect(() => {
     fixture.generateQuestions();
+    video.connect();
   }, []);
 
   // Restore started_at if already started
@@ -141,28 +150,29 @@ export default function FixtureRoom({
   if (fixture.state === "waiting") {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center text-center">
-        {/* Video placeholder (top half) */}
-        <div className="w-full flex gap-2 mb-8">
-          <div className="flex-1 bg-[#1A1A1A] border border-[#262626] aspect-video flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-[#262626] mx-auto mb-2 flex items-center justify-center font-[var(--font-space-grotesk)] font-bold text-2xl text-primary">
-                {homeName[0]}
+        {/* Video feeds (top half) */}
+        <div className="w-full mb-8">
+          {video.token && video.livekitUrl ? (
+            <VideoPanel
+              token={video.token}
+              livekitUrl={video.livekitUrl}
+              homeName={homeName}
+              awayName={awayName}
+            />
+          ) : (
+            <div className="flex gap-2">
+              <div className="flex-1 bg-[#1A1A1A] border border-[#262626] aspect-video flex items-center justify-center">
+                <p className="text-xs font-[var(--font-space-grotesk)] text-white/30">
+                  Connecting video...
+                </p>
               </div>
-              <p className="text-xs font-[var(--font-space-grotesk)] font-bold">
-                {homeName}
-              </p>
-            </div>
-          </div>
-          <div className="flex-1 bg-[#1A1A1A] border border-[#262626] aspect-video flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-[#262626] mx-auto mb-2 flex items-center justify-center font-[var(--font-space-grotesk)] font-bold text-2xl text-accent">
-                {awayName[0]}
+              <div className="flex-1 bg-[#1A1A1A] border border-[#262626] aspect-video flex items-center justify-center">
+                <p className="text-xs font-[var(--font-space-grotesk)] text-white/30">
+                  Waiting...
+                </p>
               </div>
-              <p className="text-xs font-[var(--font-space-grotesk)] font-bold">
-                {awayName}
-              </p>
             </div>
-          </div>
+          )}
         </div>
 
         <p className="text-[#d4c0d7] mb-6">
@@ -223,18 +233,29 @@ export default function FixtureRoom({
         </div>
       </div>
 
-      {/* Video placeholders (top half) */}
-      <div className="flex gap-2 mb-4">
-        <div className="flex-1 bg-[#1A1A1A] border border-[#262626] aspect-[4/3] flex items-center justify-center">
-          <span className="font-[var(--font-space-grotesk)] font-bold text-3xl text-primary/30">
-            {homeName[0]}
-          </span>
-        </div>
-        <div className="flex-1 bg-[#1A1A1A] border border-[#262626] aspect-[4/3] flex items-center justify-center">
-          <span className="font-[var(--font-space-grotesk)] font-bold text-3xl text-accent/30">
-            {awayName[0]}
-          </span>
-        </div>
+      {/* Video feeds (top half) */}
+      <div className="mb-4">
+        {video.token && video.livekitUrl ? (
+          <VideoPanel
+            token={video.token}
+            livekitUrl={video.livekitUrl}
+            homeName={homeName}
+            awayName={awayName}
+          />
+        ) : (
+          <div className="flex gap-2">
+            <div className="flex-1 bg-[#1A1A1A] border border-[#262626] aspect-[4/3] flex items-center justify-center">
+              <span className="font-[var(--font-space-grotesk)] font-bold text-3xl text-primary/30">
+                {homeName[0]}
+              </span>
+            </div>
+            <div className="flex-1 bg-[#1A1A1A] border border-[#262626] aspect-[4/3] flex items-center justify-center">
+              <span className="font-[var(--font-space-grotesk)] font-bold text-3xl text-accent/30">
+                {awayName[0]}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Quiz area (bottom half) */}
