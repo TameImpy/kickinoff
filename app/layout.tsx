@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   title: "Kickin' Off — Football Quiz Leagues",
   description:
     "Head-to-head football trivia with your mates. Create a league, play fixtures on video call, win the league.",
+  manifest: "/manifest.json",
+  themeColor: "#00e676",
   openGraph: {
     title: "Kickin' Off — Football Quiz Leagues",
     description:
@@ -36,7 +38,18 @@ export default function RootLayout({
       lang="en"
       className={`${spaceGrotesk.variable} ${splineSans.variable} dark h-full`}
     >
-      <body className="min-h-full flex flex-col antialiased">{children}</body>
+      <body className="min-h-full flex flex-col antialiased">
+        {children}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js');
+              }
+            `,
+          }}
+        />
+      </body>
     </html>
   );
 }
