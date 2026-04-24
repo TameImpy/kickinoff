@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { useFixture } from "@/hooks/useFixture";
 import { useTimer } from "@/hooks/useTimer";
 import { useVideoRoom } from "@/hooks/useVideoRoom";
+import { useFixtureRealtime } from "@/hooks/useFixtureRealtime";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 
@@ -40,6 +41,7 @@ export default function FixtureRoom({
   const fixture = useFixture(fixtureId, userId);
   const timer = useTimer(fixture.startedAt);
   const video = useVideoRoom(fixtureId);
+  const realtime = useFixtureRealtime(fixtureId);
   const lastQuestionRef = useRef(0);
 
   // Connect video + generate questions on mount
@@ -47,6 +49,23 @@ export default function FixtureRoom({
     fixture.generateQuestions();
     video.connect();
   }, []);
+
+  // Realtime: listen for opponent's events
+  useEffect(() => {
+    realtime.on("player_ready", (data: { userId: string }) => {
+      // Opponent signalled ready — could update UI
+    });
+
+    realtime.on("answer_submitted", (data: { questionNumber: number; correct: boolean; score: { home: number; away: number } }) => {
+      // Sync score from opponent's answer
+      fixture.fetchQuestion(data.questionNumber); // Refresh question state
+    });
+
+    realtime.on("fixture_started", (data: { started_at: string }) => {
+      fixture.setStartedAt(data.started_at);
+      fixture.setState("playing");
+    });
+  }, [realtime]);
 
   // Restore started_at if already started
   useEffect(() => {

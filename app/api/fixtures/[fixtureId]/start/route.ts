@@ -49,5 +49,14 @@ export async function POST(
     .update({ started_at: startedAt, status: "in_progress" })
     .eq("id", fixtureId);
 
+  // Broadcast to opponent via Realtime
+  const channel = supabase.channel(`fixture:${fixtureId}`);
+  await channel.send({
+    type: "broadcast",
+    event: "fixture_started",
+    payload: { started_at: startedAt },
+  });
+  await supabase.removeChannel(channel);
+
   return NextResponse.json({ started_at: startedAt });
 }

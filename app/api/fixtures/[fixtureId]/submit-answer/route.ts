@@ -129,6 +129,19 @@ export async function POST(
     .eq("fixture_id", fixtureId)
     .eq("question_number", question_number);
 
+  // Broadcast result to opponent via Realtime
+  const channel = supabase.channel(`fixture:${fixtureId}`);
+  await channel.send({
+    type: "broadcast",
+    event: "answer_submitted",
+    payload: {
+      questionNumber: question_number,
+      correct,
+      userId: user.id,
+    },
+  });
+  await supabase.removeChannel(channel);
+
   return NextResponse.json({
     correct,
     correct_answer: question.correct_answer,
