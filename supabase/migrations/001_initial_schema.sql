@@ -15,7 +15,7 @@ CREATE TABLE leagues (
   invite_code TEXT UNIQUE NOT NULL,
   created_by UUID REFERENCES users(id) NOT NULL,
   status TEXT DEFAULT 'open' CHECK (status IN ('open', 'active', 'completed')),
-  max_players INT DEFAULT 6 CHECK (max_players >= 3 AND max_players <= 8),
+  max_players INT DEFAULT 6 CHECK (max_players >= 2 AND max_players <= 8),
   fixture_window_days INT DEFAULT 7,
   question_mode TEXT DEFAULT 'general' CHECK (question_mode IN ('general', 'world_cup_2026', 'premier_league')),
   current_round INT DEFAULT 0,

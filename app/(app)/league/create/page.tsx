@@ -173,7 +173,7 @@ export default function CreateLeaguePage() {
             defaultValue="6"
             className="w-full bg-[#1A1A1A] border-b-2 border-accent text-white font-[var(--font-spline-sans)] px-4 py-3 focus:outline-none focus:border-primary"
           >
-            {[3, 4, 5, 6, 7, 8].map((n) => (
+            {[2, 3, 4, 5, 6, 7, 8].map((n) => (
               <option key={n} value={n}>
                 {n} players
               </option>

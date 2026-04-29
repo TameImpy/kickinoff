@@ -25,7 +25,7 @@ export default function StartLeagueButton({ leagueId }: { leagueId: string }) {
       .select("user_id")
       .eq("league_id", leagueId);
 
-    if (!league || !members || members.length < 3) {
+    if (!league || !members || members.length < 2) {
       setLoading(false);
       return;
     }

@@ -49,7 +49,7 @@ export default async function LeagueDetailPage({
 
   const isCreator = league.created_by === user.id;
   const memberCount = members?.length ?? 0;
-  const canStart = isCreator && league.status === "open" && memberCount >= 3;
+  const canStart = isCreator && league.status === "open" && memberCount >= 2;
 
   return (
     <div>
