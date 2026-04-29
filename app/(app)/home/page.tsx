@@ -82,7 +82,17 @@ export default async function DashboardPage() {
 
 function JoinCodeInput() {
   return (
-    <form action="/api/join-league" method="POST" className="flex-1 flex gap-2">
+    <form
+      action={async (formData: FormData) => {
+        "use server";
+        const code = (formData.get("code") as string)?.toUpperCase().trim();
+        if (code && code.length === 6) {
+          const { redirect } = await import("next/navigation");
+          redirect(`/join/${code}`);
+        }
+      }}
+      className="flex-1 flex gap-2"
+    >
       <input
         name="code"
         type="text"
