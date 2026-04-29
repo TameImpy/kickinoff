@@ -7,56 +7,64 @@ export async function GET(request: Request) {
   const code = searchParams.get("code");
   const next = searchParams.get("next") ?? "/home";
 
-  if (code) {
-    const cookieStore = await cookies();
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return cookieStore.getAll();
-          },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            );
-          },
-        },
-      }
-    );
-
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
-
-    if (!error) {
-      // Check if user has a display_name set
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (user) {
-        const { data: profile } = await supabase
-          .from("users")
-          .select("display_name")
-          .eq("id", user.id)
-          .single();
-
-        if (!profile) {
-          // First time login — create user record and redirect to set display name
-          const metadata = user.user_metadata;
-          await supabase.from("users").insert({
-            id: user.id,
-            email: user.email!,
-            display_name:
-              metadata?.full_name ?? metadata?.name ?? user.email!.split("@")[0],
-            avatar_url: metadata?.avatar_url ?? null,
-          });
-        }
-      }
-
-      return NextResponse.redirect(`${origin}${next}`);
-    }
+  if (!code) {
+    console.error("Auth callback: no code provided");
+    return NextResponse.redirect(`${origin}/login?error=no_code`);
   }
 
-  return NextResponse.redirect(`${origin}/login?error=auth`);
+  const cookieStore = await cookies();
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) =>
+            cookieStore.set(name, value, options)
+          );
+        },
+      },
+    }
+  );
+
+  const { error } = await supabase.auth.exchangeCodeForSession(code);
+
+  if (error) {
+    console.error("Auth callback: code exchange failed", error.message);
+    return NextResponse.redirect(`${origin}/login?error=exchange&message=${encodeURIComponent(error.message)}`);
+  }
+
+  // Try to create user profile, but don't block login if it fails
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (user) {
+      const { data: profile } = await supabase
+        .from("users")
+        .select("display_name")
+        .eq("id", user.id)
+        .single();
+
+      if (!profile) {
+        const metadata = user.user_metadata;
+        await supabase.from("users").insert({
+          id: user.id,
+          email: user.email!,
+          display_name:
+            metadata?.full_name ?? metadata?.name ?? user.email!.split("@")[0],
+          avatar_url: metadata?.avatar_url ?? null,
+        });
+      }
+    }
+  } catch (e) {
+    console.error("Auth callback: profile creation failed", e);
+    // Don't block login — user can still proceed
+  }
+
+  return NextResponse.redirect(`${origin}${next}`);
 }
