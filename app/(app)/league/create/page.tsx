@@ -74,7 +74,8 @@ export default function CreateLeaguePage() {
   };
 
   if (shareScreen) {
-    const shareUrl = `https://kickinoff.co.uk/join/${shareScreen.code}`;
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://kickinoff.co.uk";
+    const shareUrl = `${appUrl}/join/${shareScreen.code}`;
     const whatsappMessage = encodeURIComponent(
       `I've created a football quiz league on Kickin' Off!\n\nJoin "${shareScreen.name}" and prove you know more about football than me.\n\n${shareUrl}`
     );
