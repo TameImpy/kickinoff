@@ -40,33 +40,35 @@ export default function CreateLeaguePage() {
 
     const inviteCode = generateInviteCode();
 
-    const { error: insertError } = await supabase.from("leagues").insert({
-      name,
-      invite_code: inviteCode,
-      created_by: user.id,
-      question_mode: questionMode,
-      max_players: maxPlayers,
-      fixture_window_days: fixtureWindowDays,
-    });
+    const { data: league, error: insertError } = await supabase
+      .from("leagues")
+      .insert({
+        name,
+        invite_code: inviteCode,
+        created_by: user.id,
+        question_mode: questionMode,
+        max_players: maxPlayers,
+        fixture_window_days: fixtureWindowDays,
+      })
+      .select("id")
+      .single();
 
-    if (insertError) {
-      setError(insertError.message);
+    if (insertError || !league) {
+      setError(insertError?.message ?? "Failed to create league");
       setLoading(false);
       return;
     }
 
     // Auto-join creator
-    const { data: league } = await supabase
-      .from("leagues")
-      .select("id")
-      .eq("invite_code", inviteCode)
-      .single();
+    const { error: joinError } = await supabase.from("league_members").insert({
+      league_id: league.id,
+      user_id: user.id,
+    });
 
-    if (league) {
-      await supabase.from("league_members").insert({
-        league_id: league.id,
-        user_id: user.id,
-      });
+    if (joinError) {
+      setError(`League created but failed to join: ${joinError.message}`);
+      setLoading(false);
+      return;
     }
 
     setShareScreen({ code: inviteCode, name });
