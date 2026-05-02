@@ -135,9 +135,9 @@ export default function FixtureRoom({
           </div>
         </div>
         <p className="font-[var(--font-space-grotesk)] text-lg font-bold mb-8 text-[#d4c0d7]">
-          {userWon && `${isHome ? homeName : awayName} wins! 3 points in ${leagueName}`}
-          {isDraw && `It's a draw! 1 point each`}
-          {userLost && `${isHome ? awayName : homeName} wins! 3 points in ${leagueName}`}
+          {userWon && `Great work! You grab the 3 points in ${leagueName}`}
+          {isDraw && `Couldn't separate you! 1 point each in ${leagueName}`}
+          {userLost && `Ah bad luck, you lost. ${isHome ? awayName : homeName} takes the 3 points`}
         </p>
         <div className="flex flex-col gap-3 w-full max-w-xs">
           {!userLost && shareText && (
@@ -149,14 +149,14 @@ export default function FixtureRoom({
                   navigator.clipboard.writeText(shareText);
                 }
               }}
-              className="w-full bg-primary text-black font-[var(--font-space-grotesk)] font-bold py-4 button-clip hover:shadow-[0_0_15px_#00e676] transition-all"
+              className="w-full bg-primary text-black font-[var(--font-space-grotesk)] font-bold py-4 hover:shadow-[0_0_15px_#00e676] transition-all"
             >
               SHARE RESULT
             </button>
           )}
           <Link
             href={`/league/${leagueId}`}
-            className="w-full border border-[#262626] text-white/50 font-[var(--font-space-grotesk)] font-bold py-4 text-center hover:bg-white/5 transition-all"
+            className="w-full border border-[#262626] text-white/50 font-[var(--font-space-grotesk)] font-bold py-4 text-center hover:bg-white/5 transition-all block"
           >
             BACK TO LEAGUE
           </Link>
@@ -201,7 +201,7 @@ export default function FixtureRoom({
         <button
           onClick={fixture.startFixture}
           disabled={!fixture.questionsReady}
-          className="bg-primary text-black font-[var(--font-space-grotesk)] font-bold text-xl py-5 px-10 button-clip hover:shadow-[0_0_20px_#00e676] transition-all disabled:opacity-50"
+          className="bg-primary text-black font-[var(--font-space-grotesk)] font-bold text-xl py-5 px-10 hover:shadow-[0_0_20px_#00e676] transition-all disabled:opacity-50"
         >
           START MATCH
         </button>

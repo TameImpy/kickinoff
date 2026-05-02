@@ -74,25 +74,32 @@ export function useFixture(fixtureId: string, userId: string) {
     async (questionNumber: number, answer: number) => {
       setSelectedAnswer(answer);
 
-      const res = await fetch(`/api/fixtures/${fixtureId}/submit-answer`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question_number: questionNumber, answer }),
-      });
+      try {
+        const res = await fetch(`/api/fixtures/${fixtureId}/submit-answer`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question_number: questionNumber, answer }),
+        });
 
-      if (res.ok) {
         const data = await res.json();
-        setLastAnswer(data);
 
-        // Update score
-        if (data.correct) {
-          setScore((prev) => {
-            const isHomeTurn = questionNumber % 2 !== 0;
-            return isHomeTurn
-              ? { ...prev, home: prev.home + 1 }
-              : { ...prev, away: prev.away + 1 };
-          });
+        if (res.ok) {
+          setLastAnswer(data);
+
+          // Update score
+          if (data.correct) {
+            setScore((prev) => {
+              const isHomeTurn = questionNumber % 2 !== 0;
+              return isHomeTurn
+                ? { ...prev, home: prev.home + 1 }
+                : { ...prev, away: prev.away + 1 };
+            });
+          }
+        } else {
+          console.error("Submit answer failed:", data);
         }
+      } catch (err) {
+        console.error("Submit answer error:", err);
       }
     },
     [fixtureId]
